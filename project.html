@@ -41,7 +41,7 @@
             <div class="col-md-6">
                 <label for="exampleInputPassword1" class="form-label">Wachtwoord</label>
                 <input type="password" class="form-control" id="wachtwoord">
-                <div class="form-text">Je wachtwoord moet minstens 8 takens lang zijn.</div>
+                <div class="form-text">Je wachtwoord moet minstens 8 tekens lang zijn.</div>
             </div>
             <div class="col-md-6">
                 <label for="exampleInputPassword1" class="form-label">Herhaal wachtwoord</label>
@@ -341,7 +341,7 @@
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" id="akkord">
                     <label class="form-check-label" for="akkord">
-                      Ik ga akkord met de algemene voorwaarden
+                      Ik ga akkoord met de algemene voorwaarden
                     </label>
                   </div>
             </div>
@@ -401,7 +401,7 @@
         document.querySelector("#errors").style.display = "none";
         document.querySelector("#goedGedaan").style.display = "none";
 
-        //
+        //creating a shortcut for a button submit
         const submit = document.querySelector("#submit");
 
         //creating and empty array "errors" where I will store all errors
@@ -449,24 +449,28 @@
             j++;   
 
           }
+          //setting the errors in the alert box using a loop
           let i = 0;
           while (i < errors.length) {
             document.querySelector("#melding").innerHTML += errors[i] + "<br>";
             i++;
           }
+          //if the errors array is empty displaying only succes and primary alerts and hiding danger alert
           if (errors.length === 0){
             document.querySelector("#goedGedaan").style.display = "block";
             document.querySelector("#errors").style.display = "none";
           }
+          //otherwise displaying only danger alert and hiding succes and promary
           else{
             document.querySelector("#errors").style.display = "block";
             document.querySelector("#goedGedaan").style.display = "none";
             
           }
         }
-        
+        //function checking empty fields
         checkEmptyField = (veld, melding) => {
-          if (veld.value == "" || veld.value == "Kies een land" || veld.value == "Kies een provincie")
+          //checking the values and using a trim to get rid of empty spaces
+          if (veld.value.trim() == "" || veld.value == "Kies een land" || veld.value == "Kies een provincie")
             {
               switch (veld.id)
               {
@@ -495,58 +499,55 @@
             }
             return false;
           }
-
-        validateEmail = (veld) => {
         
-        var valid = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@+[A-Za-z0-9]+[a-zA-Z0-9.!#$%&'*+/=?^`{|}~-]+(?:\.[a-zA-Z0-9-]+)+$/;
-        if (veld.id == "email"  ){
-          if (valid.test(veld.value) && veld.value[0].match(/[A-Za-z0-9_]/i))
+        // function to validate an email
+        validateEmail = (veld) => {
+          //creating a new variable using regax to set what characters can be used in my email
+          var valid = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@+[A-Za-z0-9]+[a-zA-Z0-9.!#$%&'*+/=?^`{|}~-]+(?:\.[a-zA-Z0-9-]+)+$/;
+          if (veld.id == "email")
           {
-          return true;
-          }
-          else {
-          errors.push("E-mailaders is niet correct.");
-          return false;
+            if (veld.value.trim() == "")
+            {
+              errors.push("Het veld email is vereist.");
+            }
+            else if (valid.test(veld.value) && veld.value[0].match(/[A-Za-z0-9_]/i))
+            {
+            return true;
+            }
+            else {
+            errors.push("E-mailadres is niet correct.");
+            }
           }
         }
-        return false;
-      }
         
+        //function to validate a password
         validateWachtwoord = (wachtwoord, wachtwoord2) => {
           
-          if (wachtwoord.id == "wachtwoord" && wachtwoord2.id == "wachtwoord2")
-          {
-            if (wachtwoord.value == "" || wachtwoord2.value == "")
+          if (wachtwoord.value.trim() == "" || wachtwoord2.value.trim() == "")
             {
-              if (wachtwoord.value == "" && wachtwoord2.value == ""){
+              if (wachtwoord.value.trim() == "" && wachtwoord2.value.trim() == ""){
                 errors.push("Het veld wachtwoord is vereist.");
                 errors.push("Het veld herhaal wachtwoord is vereist.");
-                return false;
               }
-              else if (wachtwoord.value == "")
+              else if (wachtwoord.value.trim() == "")
               {
                 errors.push("Het veld wachtwoord is vereist.");
-                return false;
               }
-              else if (wachtwoord2.value == "")
+              else if (wachtwoord2.value.trim() == "")
               {
                 errors.push("Het veld herhaal wachtwoord is vereist.");
-                return false;
               }
             }      
             else if(wachtwoord.value.length < 7)
             {
               errors.push("Het wachtwoord moet minstens 7 karakters zijn.");
-              return false;
             }
             else if(wachtwoord.value != wachtwoord2.value){
              errors.push("Je wachtwoorden komen niet overeen.");
-              return false;
             }
-          }
-          return false;
         }
 
+        //function to display a chosen payment method
         validatePayment = (veld) => {
 
           if (veld.checked){
@@ -565,32 +566,30 @@
                 betalingswijze = "PayPal";
                 break;
                 default:
-                return false;
               }
               return document.querySelector("#betalingswijze").innerHTML = "Je betalingswijze is " + betalingswijze;
           }
         }
 
+        //function to check if the postcode value is between 1000 and 9999
         checkPC = (veld) => {
           if (veld.id == "postcode")
           {
             if (veld.value == "")
             {
               errors.push("Het veld postcode is vereist.");
-              return false;
             }
             else if (veld.value < 1000 || veld.value > 9999)
             {
               errors.push("De waarde van postcode moet tussen 1000 en 9999 liggen.");
-              return false;
             }
           }
-          return false;
         }
 
+        //function to check if algemene voorwaarden are checked
         checkAkkord = (veld) => {
           if (veld.id == "akkord" && veld.checked == false){
-              errors.push("Je moet algemene voorwaarden accepteren.");
+              errors.push("Je moet de algemene voorwaarden accepteren.");
             }
         }
 

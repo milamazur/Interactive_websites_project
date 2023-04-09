@@ -502,15 +502,15 @@
         
         // function to validate an email
         validateEmail = (veld) => {
-          //creating a new variable using regax to set what characters can be used in my email
-          var valid = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@+[A-Za-z0-9]+[a-zA-Z0-9.!#$%&'*+/=?^`{|}~-]+(?:\.[a-zA-Z0-9-]+)+$/;
+          //creating a new variable using regex to set what characters can be used in my email
+          var valid = /^[A-Za-z0-9_][A-Za-z0-9_.-]*@[A-Za-z0-9][A-Za-z0-9-.]*(\.[a-zA-Z0-9-]+)+$/;
           if (veld.id == "email")
           {
             if (veld.value.trim() == "")
             {
               errors.push("Het veld email is vereist.");
             }
-            else if (valid.test(veld.value) && veld.value[0].match(/[A-Za-z0-9_]/i))
+            else if (valid.test(veld.value))
             {
             return true;
             }
